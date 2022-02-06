@@ -25,20 +25,29 @@
 
         var img = new Image();
         img.src = "flag.png";
-        canvas.onclick = function(event){
-            var x = Math.round(event.offsetX - img.width/2);
-            var y = Math.round(event.offsetY - img.height/2);
-            ctx.drawImage(img,x,y);
+        canvas.onclick = function (event) {
+          document
+            .getElementById("donators")
+            .insertAdjacentHTML("beforeend", `<li>Person (${event.offsetX - img.width / 2}, ${event.offsetY - img.height / 2})</li>`);
+          var x = Math.round(event.offsetX - img.width / 2);
+          var y = Math.round(event.offsetY - img.height / 2);
+          ctx.drawImage(img, x, y);
         };
       }
     </script>
     <style>
       canvas {
         border: 1px solid black;
+        float: left;
+        margin-right: 1rem;
       }
     </style>
   </head>
   <body onload="draw();">
     <canvas id="chart"></canvas>
+    <div>
+      <h2>Hall Of Fame</h2>
+      <ul id="donators"></ul>
+    </div>
   </body>
 </html>
