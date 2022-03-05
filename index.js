@@ -178,10 +178,10 @@ window.onload = function () {
       );
       tooltipText.setAttribute("visibility", "hidden");
       tooltipText.setAttribute("y", "-55");
-      tooltipText.textContent = donorsNames[i].clientName;
+      tooltipText.textContent = `#${(i + 1)} ${donorsNames[i].clientName}`
       tooltipSvg.appendChild(tooltipText);
 
-      // Get data of text, used for dynamic resizing
+      // Get data of text used for dynamic resizing
       let textBox = tooltipText.getBBox();
 
       // Center text by setting x-value to text width/2
@@ -203,21 +203,21 @@ window.onload = function () {
       tooltipRect.setAttribute("fill-opacity", "1");
       tooltipSvg.appendChild(tooltipRect);
 
-      // Remove and re-append because of SVG DOM Layering rules
+      // Remove and re-append text because of SVG DOM Layering rules
       tooltipText.remove();
       tooltipSvg.appendChild(tooltipText);
 
       // Display donor name on hover
       svg.addEventListener("mouseenter", function () {
         tooltipRect.setAttribute("visibility", "visible");
-        // tooltipPath.setAttribute("visibility", "visible");
+        tooltipPath.setAttribute("visibility", "visible");
         tooltipText.setAttribute("visibility", "visible");
       });
 
       // Hide donor name on mouseout
       svg.addEventListener("mouseout", function () {
         tooltipRect.setAttribute("visibility", "hidden");
-        // tooltipPath.setAttribute("visibility", "hidden");
+        tooltipPath.setAttribute("visibility", "hidden");
         tooltipText.setAttribute("visibility", "hidden");
       });
     });
