@@ -130,9 +130,9 @@ window.onload = function () {
    */
   function renderFlags() {
     coordinates.forEach((x, i) => {
-      console.log(donorsNames[i].clientName);
       //Create the Flag SVG
       var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("overflow", "visible");
       svg.setAttribute("width", "1.8");
       svg.setAttribute("height", "1.8");
       svg.setAttribute("x", x.x);
@@ -152,7 +152,6 @@ window.onload = function () {
       path.setAttribute("fill", "#E36F1E");
       svg.appendChild(path);
 
-      // TODO: Get the Tooltip rendering (at all) then on hover
       // Create ToolTip SVG
       var tooltipSvg = document.createElementNS(
         "http://www.w3.org/2000/svg",
@@ -161,25 +160,76 @@ window.onload = function () {
       tooltipSvg.setAttribute("overflow", "visible");
       svg.appendChild(tooltipSvg);
 
+      // Create tooltip path
+      var tooltipPath = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "path"
+      );
+      tooltipPath.setAttribute("visibility", "hidden");
+      tooltipPath.setAttribute("d", "M10,0 v-60");
+      tooltipPath.setAttribute("stroke", "#fff");
+      tooltipPath.setAttribute("stroke-width", "2");
+      tooltipSvg.appendChild(tooltipPath);
+
+      // Create tooltip text
+      var tooltipText = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "text"
+      );
+      tooltipText.setAttribute("visibility", "hidden");
+      tooltipText.setAttribute("y", "-55");
+      tooltipText.textContent = donorsNames[i].clientName;
+      tooltipSvg.appendChild(tooltipText);
+
+      // Get data of text, used for dynamic resizing
+      let textBox = tooltipText.getBBox();
+
+      // Center text by setting x-value to text width/2
+      tooltipText.setAttribute("x", -(textBox.width / 2.5));
+
       // Create ToolTip rect
       var tooltipRect = document.createElementNS(
         "http://www.w3.org/2000/svg",
         "rect"
       );
-      tooltipRect.setAttribute("width", "150");
+      tooltipRect.setAttribute("visibility", "hidden");
+      tooltipRect.setAttribute("width", textBox.width + 20);
       tooltipRect.setAttribute("height", "40");
-      tooltipRect.setAttribute("x", "-60");
-      tooltipRect.setAttribute("y", "-100");
+      tooltipRect.setAttribute("x", -(textBox.width / 2.5) - 10);
+      tooltipRect.setAttribute("y", "-80");
       tooltipRect.setAttribute("rx", "5");
       tooltipRect.setAttribute("ry", "5");
       tooltipRect.setAttribute("fill", "#fff");
       tooltipRect.setAttribute("fill-opacity", "1");
       tooltipSvg.appendChild(tooltipRect);
+
+      // Remove and re-append because of SVG DOM Layering rules
+      tooltipText.remove();
+      tooltipSvg.appendChild(tooltipText);
+
+      // Display donor name on hover
+      svg.addEventListener("mouseenter", function () {
+        tooltipRect.setAttribute("visibility", "visible");
+        // tooltipPath.setAttribute("visibility", "visible");
+        tooltipText.setAttribute("visibility", "visible");
+      });
+
+      // Hide donor name on mouseout
+      svg.addEventListener("mouseout", function () {
+        tooltipRect.setAttribute("visibility", "hidden");
+        // tooltipPath.setAttribute("visibility", "hidden");
+        tooltipText.setAttribute("visibility", "hidden");
+      });
     });
   }
-
   loadDonors();
-  // renderFlags();
+
+  /**
+   * Reload flags according to selected filter
+   */
+  function filter() {
+    $("#hof").empty();
+  }
 };
 
 // Flag and Tooltip Template
