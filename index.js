@@ -26,6 +26,8 @@ window.onload = function () {
   }
   // Callback to load donors for 'mountain' view or 'list' view
   function loadDonorsCallback(type) {
+    renderFlags();
+    renderList();
     switch (type) {
       case "mountain":
         openMountainView();
@@ -34,6 +36,17 @@ window.onload = function () {
         openListView();
         break;
     }
+  }
+
+  /**
+   * Populate list for 'ListView'
+   */
+  function renderList() {
+    donorsNames.forEach((x, i) => {
+      document.getElementById(
+        "list-view-ul"
+      ).innerHTML += `<li>#${i + 1} ${x.clientName}</li>`;
+    });
   }
 
   /**
@@ -200,17 +213,16 @@ window.onload = function () {
 
   // Open MountainView
   function openMountainView() {
-    renderFlags();
     document.getElementById("hof").style.display = "block";
     document.getElementById("container").style.position = "absolute";
-    document.getElementById("list-view").style.display = "none";
+    document.getElementById("list-view-container").style.display = "none";
   }
 
   // Open listView
   function openListView() {
     document.getElementById("hof").style.display = "none";
     document.getElementById("container").style.position = "relative";
-    document.getElementById("list-view").style.display = "flex";
+    document.getElementById("list-view-container").style.display = "block";
   }
 
   function init() {
@@ -218,11 +230,12 @@ window.onload = function () {
     $.getJSON("data/coordinates.json", function (json) {
       coordinates = json;
     });
-
-    window.onresize = function (event) {
-      window.innerWidth > 800 ? openMountainView() : openListView();
-    };
     window.innerWidth > 800 ? loadDonors("mountain") : loadDonors("list");
+
+    // Dynamically switch on screen resize TODO: add openMountainView() when appropriate
+    window.onresize = function (event) {
+      window.innerWidth > 800 ? "" : openListView();
+    };
   }
 
   init();

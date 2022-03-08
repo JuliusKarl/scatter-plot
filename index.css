@@ -37,12 +37,15 @@ h1 {
   font-size: 1.2vw;
 }
 
-#list-view {
-  display: none;
+#list-view-index {
   margin-top: 2rem;
   padding: 1vw 2vw;
-  justify-content: space-between;
   background-color: #f7f7f7;
+}
+
+#index {
+  display: flex;
+  justify-content: space-between;
 }
 
 #list-view a {
