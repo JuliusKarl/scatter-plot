@@ -1,108 +1,8 @@
 window.onload = function () {
   // Flag Coordinates
-  var coordinates = [
-    { x: 85, y: 6 },
-    { x: 83, y: 6.5 },
-    { x: 90, y: 6.6 },
-    { x: 81, y: 7.5 },
-    { x: 95, y: 7.8 },
-    { x: 75, y: 9.5 },
-    { x: 73, y: 9.8 },
-    { x: 60, y: 11.2 },
-    { x: 70, y: 11.3 },
-    { x: 65, y: 11.8 },
-    { x: 47, y: 12.5 },
-    { x: 49, y: 13.2 },
-    { x: 51, y: 14 },
-    { x: 53, y: 14.5 },
-    { x: 38, y: 18 },
-    { x: 40, y: 18.5 },
-    { x: 42, y: 18.9 },
-    { x: 30, y: 19 },
-    { x: 44, y: 19.5 },
-    { x: 90, y: 19.5 },
-    { x: 75, y: 19.8 },
-    { x: 85, y: 20 },
-    { x: 77, y: 20 },
-    { x: 92, y: 20 },
-    { x: 34, y: 20 },
-    { x: 72.5, y: 20.2 },
-    { x: 81, y: 20.2 },
-    { x: 79, y: 20.2 },
-    { x: 36, y: 20.5 },
-    { x: 26, y: 20.5 },
-    { x: 20, y: 20.8 },
-    { x: 38, y: 21.1 },
-    { x: 95, y: 21.5 },
-    { x: 40, y: 21.6 },
-    { x: 52, y: 22 },
-    { x: 57, y: 22 },
-    { x: 60, y: 22.1 },
-    { x: 42, y: 22.2 },
-    { x: 62, y: 22.5 },
-    { x: 44, y: 23 },
-    { x: 65, y: 23.1 },
-    { x: 66.5, y: 23.9 },
-    { x: 22, y: 24.2 },
-    { x: 68.8, y: 24.7 },
-    { x: 13, y: 24.7 },
-    { x: 25, y: 25 },
-    { x: 10, y: 25 },
-    { x: 71, y: 25.1 },
-    { x: 75, y: 25.2 },
-    { x: 73, y: 25.3 },
-    { x: 77, y: 26 },
-    { x: 3, y: 26 },
-    { x: 7, y: 26 },
-    { x: 50, y: 26.5 },
-    { x: 80, y: 26.5 },
-    { x: 16, y: 26.8 },
-    { x: 53, y: 27 },
-    { x: 18, y: 27.1 },
-    { x: 82, y: 27.3 },
-    { x: 20, y: 27.8 },
-    { x: 55, y: 27.8 },
-    { x: 22, y: 28 },
-    { x: 57, y: 28.1 },
-    { x: 84, y: 28.2 },
-    { x: 60, y: 28.8 },
-    { x: 86, y: 29 },
-    { x: 62, y: 29.5 },
-    { x: 88, y: 29.5 },
-    { x: 30.5, y: 30 },
-    { x: 92, y: 30 },
-    { x: 90, y: 30.2 },
-    { x: 42, y: 30.5 },
-    { x: 69.2, y: 30.5 },
-    { x: 95, y: 30.6 },
-    { x: 33.2, y: 30.8 },
-    { x: 53.2, y: 31 },
-    { x: 61, y: 31 },
-    { x: 29, y: 31.2 },
-    { x: 45, y: 31.5 },
-    { x: 5, y: 32.3 },
-    { x: 21.2, y: 32.5 },
-    { x: 3, y: 33 },
-    { x: 55.5, y: 33 },
-    { x: 43.1, y: 33.1 },
-    { x: 52.5, y: 33.2 },
-    { x: 27.5, y: 34 },
-    { x: 41, y: 34.2 },
-    { x: 58, y: 34.5 },
-    { x: 42, y: 34.9 },
-    { x: 60, y: 35.5 },
-    { x: 39, y: 35.7 },
-    { x: 26.2, y: 36 },
-    { x: 48.5, y: 36.7 },
-    { x: 63, y: 37 },
-    { x: 65, y: 38.2 },
-    { x: 38.5, y: 38.8 },
-    { x: 67, y: 39.5 },
-    { x: 69, y: 39.5 },
-    { x: 91, y: 39.6 },
-    { x: 95, y: 41 },
-  ];
+  let coordinates = [];
 
+  // Donors names
   var donorsNames = new Array();
 
   /**
@@ -110,25 +10,38 @@ window.onload = function () {
    * loadDonors() finishes before populating 'donorsNames' array therefore
    * renderFlags() must be called after the 'complete:' callback
    */
-  function loadDonors() {
+  function loadDonors(type) {
     var config = {
       delimiter: ",",
       step: function (results) {
         donorsNames.push(results.data);
       },
       complete: function (results) {
-        renderFlags();
+        loadDonorsCallback(type);
       },
       download: true,
       header: true,
     };
-    Papa.parse("./donor-list.csv", config);
+    Papa.parse("data/donor-list.csv", config);
+  }
+  // Callback to load donors for 'mountain' view or 'list' view
+  function loadDonorsCallback(type) {
+    switch (type) {
+      case "mountain":
+        openMountainView();
+        break;
+      case "list":
+        openListView();
+        break;
+    }
   }
 
   /**
    * Add Flags
    */
   function renderFlags() {
+    // Render 'View All' button
+    renderViewAll();
     coordinates.forEach((x, i) => {
       //Create the Flag SVG
       var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -178,7 +91,7 @@ window.onload = function () {
       );
       tooltipText.setAttribute("visibility", "hidden");
       tooltipText.setAttribute("y", "-55");
-      tooltipText.textContent = `#${(i + 1)} ${donorsNames[i].clientName}`
+      tooltipText.textContent = `#${i + 1} ${donorsNames[i].clientName}`;
       tooltipSvg.appendChild(tooltipText);
 
       // Get data of text used for dynamic resizing
@@ -222,14 +135,97 @@ window.onload = function () {
       });
     });
   }
-  loadDonors();
 
   /**
-   * Reload flags according to selected filter
+   * Add 'View All' button
    */
-  function filter() {
-    $("#hof").empty();
+  function renderViewAll() {
+    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("overflow", "visible");
+    svg.setAttribute("x", 80);
+    svg.setAttribute("y", 36);
+    svg.setAttribute("fill", "#FFF");
+    svg.setAttribute("width", "4");
+    svg.setAttribute("height", "6.88");
+    svg.setAttribute("viewBox", "0 0 45 78");
+    svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    document.getElementById("hof").appendChild(svg);
+
+    // Define the 'View All' path1
+    var path1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path1.setAttribute("d", "M22.5 44.5v33");
+    path1.setAttribute("stroke", "#FFF");
+    path1.setAttribute("stroke-linecap", "square");
+    svg.appendChild(path1);
+
+    // Define the 'View All' path2
+    var path2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path2.setAttribute(
+      "d",
+      "M22.5 0C10.097 0 0 10.088 0 22.5 0 34.903 10.097 45 22.5 45S45 34.903 45 22.5C45 10.087 34.903 0 22.5 0zm15.15 19.913-6.9 6.722 1.631 9.487a.932.932 0 0 1-.375.91.917.917 0 0 1-.553.186.87.87 0 0 1-.431-.112L22.5 32.625l-8.522 4.481a.917.917 0 0 1-.984-.075.932.932 0 0 1-.376-.91l1.632-9.486-6.9-6.722a.932.932 0 0 1-.235-.956.92.92 0 0 1 .76-.638l9.524-1.388 4.257-8.634c.318-.637 1.368-.637 1.687 0l4.256 8.634 9.525 1.388a.92.92 0 0 1 .76.638.93.93 0 0 1-.235.956h.001z"
+    );
+    path2.setAttribute("fill", "#FFF");
+    path2.setAttribute("fill-rule", "nonzero");
+    svg.appendChild(path2);
+
+    // Create 'View All' text
+    var viewAllText = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "text"
+    );
+    viewAllText.setAttribute("x", -10);
+    viewAllText.setAttribute("y", 95);
+    viewAllText.textContent = `View All`;
+    svg.appendChild(viewAllText);
+
+    /**
+     * Dynamic Functions
+     */
+
+    // Display donor name on hover
+    svg.addEventListener("mouseenter", function () {
+      viewAllText.setAttribute("text-decoration", "underline");
+    });
+
+    // Hide donor name on mouseout
+    svg.addEventListener("mouseout", function () {
+      viewAllText.setAttribute("text-decoration", "none");
+    });
+
+    // Open list view eventListener
+    svg.addEventListener("click", function () {
+      openListView();
+    });
   }
+
+  // Open MountainView
+  function openMountainView() {
+    renderFlags();
+    document.getElementById("hof").style.display = "block";
+    document.getElementById("container").style.position = "absolute";
+    document.getElementById("list-view").style.display = "none";
+  }
+
+  // Open listView
+  function openListView() {
+    document.getElementById("hof").style.display = "none";
+    document.getElementById("container").style.position = "relative";
+    document.getElementById("list-view").style.display = "flex";
+  }
+
+  function init() {
+    // Load coordinates from external JSON
+    $.getJSON("data/coordinates.json", function (json) {
+      coordinates = json;
+    });
+
+    window.onresize = function (event) {
+      window.innerWidth > 800 ? openMountainView() : openListView();
+    };
+    window.innerWidth > 800 ? loadDonors("mountain") : loadDonors("list");
+  }
+
+  init();
 };
 
 // Flag and Tooltip Template
