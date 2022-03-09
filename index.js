@@ -232,6 +232,7 @@ window.onload = function () {
   function openListView() {
     document.getElementById("hof").style.display = "none";
     document.getElementById("container").style.position = "relative";
+     document.getElementById("index").style.display = "flex";
     document.getElementById("list-view-container").style.display = "block";
   }
 

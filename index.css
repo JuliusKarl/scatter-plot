@@ -48,7 +48,7 @@ h1 {
 }
 
 #index {
-  display: flex;
+  display: none;
   justify-content: space-between;
 }
 
