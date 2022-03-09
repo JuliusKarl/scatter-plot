@@ -66,7 +66,7 @@ h1 {
 #list-view-ul {
   margin-left: 1.4vw;
   column-width: 350px;
-  list-style-image: url('/assets/flag.svg');
+  list-style-image: url('/assets/flag.svg?sanitize=true');
 }
 
 @media only screen and (max-width: 1000px) {
