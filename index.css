@@ -65,7 +65,6 @@ h1 {
 
 #list-view-ul {
   list-style-position: outside;
-  /* margin-left: 23px; */
   column-width: 350px;
   list-style-image: url("/assets/flag.svg?sanitize=true");
 }
@@ -76,7 +75,7 @@ h1 {
 }
 
 .list-header {
-  margin: 1rem 0rem 0.5rem 0rem;
+  margin-bottom: 0.5rem;
   font-weight: bold;
 }
 

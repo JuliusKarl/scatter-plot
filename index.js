@@ -1,4 +1,4 @@
-window.onload = function () {
+$( document ).ready(function() {
   // Flag Coordinates
   let coordinates = [];
 
@@ -66,12 +66,21 @@ window.onload = function () {
     if (x.clientName.match(/[a-zA-Z]/) == null) {
       if (currentHeader == null) {
         currentHeader = "#";
-        document.getElementById("list-view-ul").innerHTML += `<p class="list-header">#</p>`;
+        document.getElementById(
+          "list-view-ul"
+        ).innerHTML += `<p class="list-header">#</p>`;
       }
     } else {
       if (x.clientName[0] != currentHeader) {
+        if (currentHeader != null) {
+          document.getElementById(
+            "list-view-ul"
+          ).innerHTML += `<br />`;
+        }
+        document.getElementById(
+          "list-view-ul"
+        ).innerHTML += `<p class="list-header">${x.clientName[0]}</p>`;
         currentHeader = x.clientName[0];
-        document.getElementById("list-view-ul").innerHTML += `<p class="list-header">${x.clientName[0]}</p>`;
       }
     }
   }
@@ -121,7 +130,7 @@ window.onload = function () {
       tooltipPath.setAttribute("visibility", "hidden");
       tooltipPath.setAttribute("d", "M10,0 v-60");
       tooltipPath.setAttribute("stroke", "#fff");
-      tooltipPath.setAttribute("stroke-width", "2");
+      tooltipPath.setAttribute("stroke-width", "1");
       tooltipSvg.appendChild(tooltipPath);
 
       // Create tooltip text
@@ -267,7 +276,7 @@ window.onload = function () {
   }
 
   init();
-};
+});
 
 // Flag and Tooltip Template
 //
