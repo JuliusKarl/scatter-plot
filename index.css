@@ -38,6 +38,7 @@ h1 {
 }
 
 #list-view-container {
+  display: none;
   margin-bottom: 4rem;
 }
 
@@ -48,7 +49,6 @@ h1 {
 }
 
 #index {
-  display: none;
   justify-content: space-between;
 }
 
