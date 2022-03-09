@@ -237,6 +237,7 @@ window.onload = function () {
   }
 
   function init() {
+    console.log('init')
     // Load coordinates from external JSON
     $.getJSON("data/coordinates.json", function (json) {
       coordinates = json;
