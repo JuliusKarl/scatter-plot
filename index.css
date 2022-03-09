@@ -65,7 +65,7 @@ h1 {
 
 #list-view-ul {
   margin-left: 1.4vw;
-  column-count: 4;
+  column-width: 350px;
   list-style-image: url('/assets/flag.svg');
 }
 
