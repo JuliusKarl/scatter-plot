@@ -43,6 +43,7 @@ window.onload = function () {
    */
   function renderList() {
     donorsNames.sort(sortArray).forEach((x, i) => {
+      createLetterHeader(x);
       document.getElementById(
         "list-view-ul"
       ).innerHTML += `<li>${x.clientName}</li>`;
@@ -57,6 +58,22 @@ window.onload = function () {
       return 1;
     }
     return 0;
+  }
+
+  // Create table headers, global variable 'currentHeader' used to track current letter
+  let currentHeader;
+  function createLetterHeader(x) {
+    if (x.clientName.match(/[a-zA-Z]/) == null) {
+      if (currentHeader == null) {
+        currentHeader = "#";
+        document.getElementById("list-view-ul").innerHTML += `<p class="list-header">#</p>`;
+      }
+    } else {
+      if (x.clientName[0] != currentHeader) {
+        currentHeader = x.clientName[0];
+        document.getElementById("list-view-ul").innerHTML += `<p class="list-header">${x.clientName[0]}</p>`;
+      }
+    }
   }
 
   /**
@@ -232,12 +249,11 @@ window.onload = function () {
   function openListView() {
     document.getElementById("hof").style.display = "none";
     document.getElementById("container").style.position = "relative";
-     document.getElementById("index").style.display = "flex";
+    document.getElementById("index").style.display = "flex";
     document.getElementById("list-view-container").style.display = "block";
   }
 
   function init() {
-    console.log('init')
     // Load coordinates from external JSON
     $.getJSON("data/coordinates.json", function (json) {
       coordinates = json;
