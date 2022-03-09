@@ -42,11 +42,21 @@ window.onload = function () {
    * Populate list for 'ListView'
    */
   function renderList() {
-    donorsNames.forEach((x, i) => {
+    donorsNames.sort(sortArray).forEach((x, i) => {
       document.getElementById(
         "list-view-ul"
-      ).innerHTML += `<li>#${i + 1} ${x.clientName}</li>`;
+      ).innerHTML += `<li>${x.clientName}</li>`;
     });
+  }
+  // Sort names alphabetically
+  function sortArray(x, y) {
+    if (x.clientName < y.clientName) {
+      return -1;
+    }
+    if (x.clientName > y.clientName) {
+      return 1;
+    }
+    return 0;
   }
 
   /**
@@ -230,11 +240,11 @@ window.onload = function () {
     $.getJSON("data/coordinates.json", function (json) {
       coordinates = json;
     });
-    window.innerWidth > 800 ? loadDonors("mountain") : loadDonors("list");
+    window.innerWidth > 1000 ? loadDonors("mountain") : loadDonors("list");
 
     // Dynamically switch on screen resize TODO: add openMountainView() when appropriate
     window.onresize = function (event) {
-      window.innerWidth > 800 ? "" : openListView();
+      window.innerWidth > 1000 ? "" : openListView();
     };
   }
 
