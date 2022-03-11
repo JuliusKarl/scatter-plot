@@ -71,7 +71,7 @@ h1 {
 ul#list-view-ul li {
   margin-left: 23px;
   padding-right: 23px;
-  list-style-image: url("/assets/flag.svg?sanitize=true");
+  list-style-image: url("/assets/flag.SVG");
 }
 
 .list-header {
