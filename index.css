@@ -66,12 +66,12 @@ h1 {
 #list-view-ul {
   list-style-position: outside;
   column-width: 350px;
-  list-style-image: url("/assets/flag.svg?sanitize=true");
 }
 
 #list-view-ul li {
   margin-left: 23px;
   padding-right: 23px;
+  list-style-image: url("/assets/flag.svg?sanitize=true");
 }
 
 .list-header {
