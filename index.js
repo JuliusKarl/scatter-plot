@@ -120,6 +120,7 @@ $( document ).ready(function() {
         "svg"
       );
       tooltipSvg.setAttribute("overflow", "visible");
+      tooltipSvg.setAttribute("visibility", "hidden");
       svg.appendChild(tooltipSvg);
 
       // Create tooltip path
@@ -127,7 +128,6 @@ $( document ).ready(function() {
         "http://www.w3.org/2000/svg",
         "path"
       );
-      tooltipPath.setAttribute("visibility", "hidden");
       tooltipPath.setAttribute("d", "M10,0 v-60");
       tooltipPath.setAttribute("stroke", "#fff");
       tooltipPath.setAttribute("stroke-width", "1");
@@ -138,7 +138,6 @@ $( document ).ready(function() {
         "http://www.w3.org/2000/svg",
         "text"
       );
-      tooltipText.setAttribute("visibility", "hidden");
       tooltipText.setAttribute("y", "-55");
       tooltipText.textContent = `#${i + 1} ${donorsNames[i].clientName}`;
       tooltipSvg.appendChild(tooltipText);
@@ -154,7 +153,6 @@ $( document ).ready(function() {
         "http://www.w3.org/2000/svg",
         "rect"
       );
-      tooltipRect.setAttribute("visibility", "hidden");
       tooltipRect.setAttribute("width", textBox.width + 20);
       tooltipRect.setAttribute("height", "40");
       tooltipRect.setAttribute("x", -(textBox.width / 2.5) - 10);
@@ -171,16 +169,12 @@ $( document ).ready(function() {
 
       // Display donor name on hover
       svg.addEventListener("mouseenter", function () {
-        tooltipRect.setAttribute("visibility", "visible");
-        tooltipPath.setAttribute("visibility", "visible");
-        tooltipText.setAttribute("visibility", "visible");
+        tooltipSvg.setAttribute("visibility", "visible");
       });
 
       // Hide donor name on mouseout
       svg.addEventListener("mouseout", function () {
-        tooltipRect.setAttribute("visibility", "hidden");
-        tooltipPath.setAttribute("visibility", "hidden");
-        tooltipText.setAttribute("visibility", "hidden");
+        tooltipSvg.setAttribute("visibility", "hidden");
       });
     });
   }
@@ -191,11 +185,11 @@ $( document ).ready(function() {
   function renderViewAll() {
     var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("overflow", "visible");
-    svg.setAttribute("x", 80);
-    svg.setAttribute("y", 36);
+    svg.setAttribute("x", 85);
+    svg.setAttribute("y", 42);
     svg.setAttribute("fill", "#FFF");
-    svg.setAttribute("width", "4");
-    svg.setAttribute("height", "6.88");
+    svg.setAttribute("width", "3");
+    svg.setAttribute("height", "5.1");
     svg.setAttribute("viewBox", "0 0 45 78");
     svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
     document.getElementById("hof").appendChild(svg);
