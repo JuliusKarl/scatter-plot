@@ -120,7 +120,6 @@ $( document ).ready(function() {
         "svg"
       );
       tooltipSvg.setAttribute("overflow", "visible");
-      tooltipSvg.setAttribute("visibility", "hidden");
       svg.appendChild(tooltipSvg);
 
       // Create tooltip path
@@ -139,7 +138,7 @@ $( document ).ready(function() {
         "text"
       );
       tooltipText.setAttribute("y", "-55");
-      tooltipText.textContent = `#${i + 1} ${donorsNames[i].clientName}`;
+      tooltipText.textContent = `${donorsNames[i].clientName}`;
       tooltipSvg.appendChild(tooltipText);
 
       // Get data of text used for dynamic resizing
@@ -167,14 +166,17 @@ $( document ).ready(function() {
       tooltipText.remove();
       tooltipSvg.appendChild(tooltipText);
 
+      // Don't display the svg initially
+      tooltipSvg.setAttribute("display", "none");
+
       // Display donor name on hover
       svg.addEventListener("mouseenter", function () {
-        tooltipSvg.setAttribute("visibility", "visible");
+        tooltipSvg.setAttribute("display", "block");
       });
 
       // Hide donor name on mouseout
       svg.addEventListener("mouseout", function () {
-        tooltipSvg.setAttribute("visibility", "hidden");
+        tooltipSvg.setAttribute("display", "none");
       });
     });
   }
@@ -225,12 +227,12 @@ $( document ).ready(function() {
      * Dynamic Functions
      */
 
-    // Display donor name on hover
+    // Underline 'View All' on hover
     svg.addEventListener("mouseenter", function () {
       viewAllText.setAttribute("text-decoration", "underline");
     });
 
-    // Hide donor name on mouseout
+    // Remove underline from 'View All' on mouseout
     svg.addEventListener("mouseout", function () {
       viewAllText.setAttribute("text-decoration", "none");
     });
@@ -246,15 +248,19 @@ $( document ).ready(function() {
     document.getElementById("hof").style.display = "block";
     document.getElementById("container").style.position = "absolute";
     document.getElementById("list-view-container").style.display = "none";
+    document.getElementById("mountain-view-button").style.display = "none";
   }
 
   // Open listView
   function openListView() {
     document.getElementById("hof").style.display = "none";
     document.getElementById("container").style.position = "relative";
-    document.getElementById("index").style.display = "flex";
     document.getElementById("list-view-container").style.display = "block";
+    document.getElementById("mountain-view-button").style.display = "inline";
   }
+  $("#mountain-view-button").click(function () {
+    openMountainView();
+  });
 
   function init() {
     // Load coordinates from external JSON

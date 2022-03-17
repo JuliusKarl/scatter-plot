@@ -32,35 +32,29 @@ h1 {
 }
 
 .text-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.text-container p {
   font-weight: 200;
   max-width: 35vw;
   font-size: 1.2vw;
 }
 
+#mountain-view-button {
+  display: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  height: fit-content;
+  background: white;
+  border-radius: 0.2rem;
+  border: 1px solid black;
+}
+
 #list-view-container {
   display: none;
-  margin-bottom: 4rem;
-}
-
-#list-view-index {
-  margin: 2rem 0rem;
-  padding: 1vw 2vw;
-  background-color: #f7f7f7;
-}
-
-#index {
-  justify-content: space-between;
-}
-
-#list-view a {
-  color: #303c42;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-#list-view a[disabled] {
-  color: #77858d;
-  cursor: unset;
+  margin: 4rem 0rem;
 }
 
 #list-view-ul {
@@ -85,7 +79,7 @@ ul#list-view-ul li {
     margin-bottom: 0.5rem;
   }
 
-  .text-container {
+  .text-container p {
     font-weight: 200;
     max-width: fit-content;
     font-size: 1rem;
@@ -93,5 +87,9 @@ ul#list-view-ul li {
 
   #list-view-ul {
     column-width: 250px;
+  }
+
+  #mountain-view-button {
+    display: none!important;
   }
 }
