@@ -1,4 +1,4 @@
-$( document ).ready(function() {
+$(document).ready(function () {
   // Flag Coordinates
   let coordinates = [];
 
@@ -22,8 +22,9 @@ $( document ).ready(function() {
       download: true,
       header: true,
     };
-    Papa.parse("data/donor-list.csv", config);
+    Papa.parse("data/new-donor-list.csv", config);
   }
+
   // Callback to load donors for 'mountain' view or 'list' view
   function loadDonorsCallback(type) {
     renderFlags();
@@ -73,9 +74,7 @@ $( document ).ready(function() {
     } else {
       if (x.clientName[0] != currentHeader) {
         if (currentHeader != null) {
-          document.getElementById(
-            "list-view-ul"
-          ).innerHTML += `<br />`;
+          document.getElementById("list-view-ul").innerHTML += `<br />`;
         }
         document.getElementById(
           "list-view-ul"
@@ -102,7 +101,12 @@ $( document ).ready(function() {
       svg.setAttribute("viewBox", "0 0 23 26");
       svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
       svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
-      svg.setAttribute("class", donorsNames[i].clientName);
+      svg.setAttribute(
+        "class",
+        donorsNames[i]?.clientName != undefined
+          ? donorsNames[i]?.clientName
+          : "Anonymous Donor"
+      );
       document.getElementById("hof").appendChild(svg);
 
       // Define the Flag SVG
@@ -138,7 +142,11 @@ $( document ).ready(function() {
         "text"
       );
       tooltipText.setAttribute("y", "-55");
-      tooltipText.textContent = `${donorsNames[i].clientName}`;
+      tooltipText.textContent = `${
+        donorsNames[i]?.clientName != undefined
+          ? donorsNames[i]?.clientName
+          : "Anonymous Donor"
+      }`;
       tooltipSvg.appendChild(tooltipText);
 
       // Get data of text used for dynamic resizing
@@ -266,55 +274,17 @@ $( document ).ready(function() {
     // Load coordinates from external JSON
     $.getJSON("data/coordinates.json", function (json) {
       coordinates = json;
-    });
-    window.innerWidth > 1000 ? loadDonors("mountain") : loadDonors("list");
+    })
+      .then(() => {
+        window.innerWidth > 1000 ? loadDonors("mountain") : loadDonors("list");
 
-    // Dynamically switch on screen resize TODO: add openMountainView() when appropriate
-    window.onresize = function (event) {
-      window.innerWidth > 1000 ? "" : openListView();
-    };
+        // Dynamically switch on screen resize TODO: add openMountainView() when appropriate
+        window.onresize = function (event) {
+          window.innerWidth > 1000 ? "" : openListView();
+        };
+      })
+      .catch((error) => console.error(error));
   }
 
   init();
 });
-
-// Flag and Tooltip Template
-//
-// <svg
-//   overflow="visible"
-//   x="21.2"
-//   y="32.5"
-//   width="1.8"
-//   height="1.8"
-//   viewBox="0 0 23 26"
-//   xmlns="http://www.w3.org/2000/svg"
-//   xmlns:xlink="http://www.w3.org/1999/xlink"
-// >
-//   <defs>
-//     <path
-//       d="M.458 1.182A.802.802 0 0 0 0 1.901v14.134c0 .03.006.058.017.084v9.104c0 .429.358.777.801.777.442 0 .8-.348.8-.777v-9.469c1.753-.519 3.73-.703 3.73-.703 1.952-.02 3.831.539 5.876 1.146 2.317.69 4.866 1.448 7.887 1.448 1.015 0 2.081-.086 3.211-.288a.823.823 0 0 0 .629-.518.784.784 0 0 0-.145-.789l-5.282-6.108 5.29-6.303a.781.781 0 0 0 .07-.917.837.837 0 0 0-.862-.382c-4.098.733-7.258-.207-10.313-1.115C9.616.602 7.59 0 5.437 0 3.87 0 2.236.32.458 1.182z"
-//       id="j2mcz825ra"
-//     />
-//   </defs>
-//   <g fill="none" fill-rule="evenodd">
-//     <mask id="npuw7wad9b" fill="#fff">
-//       <use xlink:href="#j2mcz825ra" />
-//     </mask>
-//     <path fill="#E36F1E" mask="url(#npuw7wad9b)" d="M-1 27h25V-1H-1z" />
-//   </g>
-//   <svg overflow="visible" visibility="hidden">
-//     <rect
-//       width="150"
-//       height="40"
-//       x="-60"
-//       y="-100"
-//       rx="5"
-//       ry="5"
-//       style="fill: white; fill-opacity: 1"
-//     />
-//     <path d="M10,0 v-100" stroke="white" stroke-width="2" />
-//     <text x="-10" y="-75">
-//       Tooltip
-//     </text>
-//   </svg>
-// </svg>;
